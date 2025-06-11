@@ -4,13 +4,87 @@
 <head th:fragment="head (titulo)">
     <meta charset="UTF-8"/>
     <title th:text="${titulo}"></title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
+<!-- Navbar para páginas cuando el usuario está logueado -->
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <!-- Brand - ToDoList (enlace a página acerca de) -->
+        <a class="navbar-brand" th:href="@{/about}">ToDoList</a>
+        
+        <!-- Botón toggle para móviles -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Menú izquierdo -->
+            <ul class="navbar-nav me-auto">
+                <!-- Enlace a Tareas -->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/usuarios/{id}/tareas(id=${session.idUsuarioLogeado})}">Tareas</a>
+                </li>
+            </ul>
+
+            <!-- Menú derecho - Dropdown del usuario -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <span th:text="${session.nombreUsuario != null ? session.nombreUsuario : 'Usuario'}">Usuario</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#" onclick="alert('Funcionalidad pendiente')">Cuenta</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item" th:href="@{/logout}">
+                                <span th:text="'Cerrar sesión ' + (${session.nombreUsuario != null ? session.nombreUsuario : ''})">Cerrar sesión</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Navbar especial para la página "about" cuando NO hay usuario logueado -->
+<nav th:fragment="navbar-about-guest" class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <!-- Brand - ToDoList -->
+        <a class="navbar-brand" th:href="@{/about}">ToDoList</a>
+        
+        <!-- Botón toggle para móviles -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNavGuest" aria-controls="navbarNavGuest" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavGuest">
+            <!-- Menú derecho - enlaces a login y registro -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/login}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/registro}">Registro</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Scripts JavaScript -->
 <div th:fragment="javascript">
-    <script th:src="@{/js/jquery.min.js}"></script>
-    <script th:src="@{/js/popper.min.js}"></script>
-    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <!-- Bootstrap 5 Bundle con Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery si necesitas compatibilidad -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </div>
 
 </html>

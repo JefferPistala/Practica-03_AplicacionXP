@@ -1,19 +1,19 @@
 package madstodolist.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
-
-// Data Transfer Object para la clase Tarea
-public class TareaData implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+public class TareaData {
     private Long id;
     private String titulo;
-    private Long usuarioId;  // Esta es la ID del usuario asociado
+    private UsuarioData usuario;
 
-    // Getters y setters
+    // Constructor vacío
+    public TareaData() {}
 
+    // Constructor con parámetros
+    public TareaData(String titulo) {
+        this.titulo = titulo;
+    }
+
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -30,27 +30,24 @@ public class TareaData implements Serializable {
         this.titulo = titulo;
     }
 
-    public Long getUsuarioId() {
-        return usuarioId;
+    public UsuarioData getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(UsuarioData usuario) {
+        this.usuario = usuario;
     }
-
-    // Sobreescribimos equals y hashCode para que dos tareas sean iguales
-    // si tienen el mismo ID (ignoramos el resto de atributos)
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TareaData)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         TareaData tareaData = (TareaData) o;
-        return Objects.equals(id, tareaData.id);
+        return id != null ? id.equals(tareaData.id) : tareaData.id == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return id != null ? id.hashCode() : 0;
     }
 }
