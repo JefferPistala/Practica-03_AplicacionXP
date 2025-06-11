@@ -28,3 +28,8 @@ Una vez lanzada la aplicación puedes abrir un navegador y probar la página de 
 
 - [http://localhost:8080/login](http://localhost:8080/login)
 # TodoListSpringBoot
+
+## Enlaces del proyecto
+
+- [Repositorio en GitHub](https://github.com/JefferPistala/Practica-03_AplicacionXP)
+- [Tablero de tareas en Trello](https://trello.com/b/icFAhELO/todolist-epn)
