@@ -1,5 +1,7 @@
 package madstodolist.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import madstodolist.dto.UsuarioData;
 import madstodolist.model.Usuario;
 import madstodolist.repository.UsuarioRepository;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+
 
 @Service
 public class UsuarioService {
@@ -72,4 +75,15 @@ public class UsuarioService {
             return modelMapper.map(usuario, UsuarioData.class);
         }
     }
+
+  @Transactional(readOnly = true)
+public List<UsuarioData> findAllUsuarios() {
+    logger.debug("Devolviendo todos los usuarios registrados");
+    List<Usuario> usuarios = (List<Usuario>) usuarioRepository.findAll();
+    
+    return usuarios.stream()
+            .map(usuario -> modelMapper.map(usuario, UsuarioData.class))
+            .collect(Collectors.toList());
 }
+}
+
