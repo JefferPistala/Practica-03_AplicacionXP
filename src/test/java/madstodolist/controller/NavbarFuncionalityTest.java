@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.not;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class NavbarFunctionalityTest {
+public class NavbarFuncionalityTest {
 
     @Autowired
     private MockMvc mockMvc;
