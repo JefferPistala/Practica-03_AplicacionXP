@@ -5,7 +5,8 @@
 
     <groupId>es.ua.mads</groupId>
     <artifactId>epn-todolist-JefferPistala</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
+
 
     <parent>
         <groupId>org.springframework.boot</groupId>
