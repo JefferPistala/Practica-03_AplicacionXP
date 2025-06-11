@@ -2,6 +2,7 @@ package madstodolist.controller;
 
 import madstodolist.dto.UsuarioData;
 import madstodolist.service.UsuarioService;
+import madstodolist.authentication.ManagerUserSession;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -9,8 +10,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -31,6 +37,9 @@ public class UsuarioWebTest {
     // las peticiones a los endpoint.
     @MockBean
     private UsuarioService usuarioService;
+
+    @MockBean
+    private ManagerUserSession managerUserSession;
 
     @Test
     public void servicioLoginUsuarioOK() throws Exception {
@@ -92,5 +101,33 @@ public class UsuarioWebTest {
                         .param("eMail","ana.garcia@gmail.com")
                         .param("password","000"))
                 .andExpect(content().string(containsString("Contraseña incorrecta")));
+    }
+
+    @Test
+    public void testListadoUsuariosIntegracion() throws Exception {
+        // GIVEN
+        // Mockeamos la lista de usuarios
+        UsuarioData usuario1 = new UsuarioData();
+        usuario1.setId(1L);
+        usuario1.setEmail("test1@ua.es");
+        
+        UsuarioData usuario2 = new UsuarioData();
+        usuario2.setId(2L);
+        usuario2.setEmail("test2@ua.es");
+        
+        List<UsuarioData> usuarios = Arrays.asList(usuario1, usuario2);
+        
+        // Mockeamos los servicios
+        when(usuarioService.findAllUsuarios()).thenReturn(usuarios);
+        when(managerUserSession.usuarioLogeado()).thenReturn(1L);
+
+        // WHEN, THEN
+        this.mockMvc.perform(get("/registrados"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(allOf(
+                    containsString("test1@ua.es"),
+                    containsString("test2@ua.es"),
+                    containsString("Ver detalles")
+                )));
     }
 }
