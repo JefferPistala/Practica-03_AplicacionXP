@@ -1,26 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head th:replace="fragments :: head (titulo='Login')"></head>
-
+<head th:replace="fragments :: head (titulo='Nueva Tarea')"></head>
 <body>
-<div class="container-fluid">
+    <!-- Incluir navbar -->
+    <nav th:replace="fragments :: navbar"></nav>
 
-    <h2 th:text="'Nueva tarea para el usuario ' + ${usuario.getNombre()}"></h2>
-
-    <form method="post" th:action="@{/usuarios/{id}/tareas/nueva(id=${usuario.id})}" th:object="${tareaData}">
-        <div class="col-6">
-        <div class="form-group">
-            <label for="titulo">Título de la tarea:</label>
-            <input class="form-control" id="titulo" name="titulo" required th:field="*{titulo}" type="text"/>
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Nueva Tarea</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" th:action="@{/usuarios/{id}/tareas/nueva(id=${usuario.id})}">
+                            <div class="mb-3">
+                                <label for="titulo" class="form-label">Título de la tarea</label>
+                                <input type="text" class="form-control" id="titulo" name="titulo" 
+                                       placeholder="Describe tu tarea..." required>
+                            </div>
+                            
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a class="btn btn-secondary me-md-2" th:href="@{/usuarios/{id}/tareas(id=${usuario.id})}">Cancelar</a>
+                                <button type="submit" class="btn btn-primary">Crear Tarea</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button class="btn btn-primary" type="submit">Crear tarea</button>
-        <a class="btn btn-link" th:href="@{/usuarios/{id}/tareas(id=${usuario.id})}">Cancelar</a>
-        </div>
-    </form>
-</div>
+    </div>
 
-<div th:replace="fragments::javascript"/>
-
+    <div th:replace="fragments::javascript"/>
 </body>
 </html>

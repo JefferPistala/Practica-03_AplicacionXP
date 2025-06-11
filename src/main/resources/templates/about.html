@@ -1,22 +1,33 @@
-<!DOCTYPE html> 
-<html xmlns:th="http://www.thymeleaf.org"> 
- 
-<head th:replace="fragments :: head (titulo='Acerca de')"></head> 
- 
-<body> 
-<div class="container-fluid"> 
-    <div class="container-fluid"> 
-        <h1>ToDoList</h1> 
-        <ul> 
-            <li>Desarrollada por Jefferson Pistala </li> 
-            <li>Versión 1.0.1 (en desarrollo)</li> 
-            <li>Fecha de release: pendiente de release</li> 
-        </ul> 
-    </div> 
- 
-</div> 
- 
-<div th:replace="fragments::javascript"/> 
- 
-</body> 
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head (titulo='Acerca de')"></head>
+<body>
+    <!-- Navbar condicional dependiendo si está logueado o no -->
+    <div th:switch="${session.idUsuarioLogeado}">
+        <!-- Usuario logueado: mostrar navbar completa -->
+        <div th:case="null">
+            <!-- Usuario NO logueado: mostrar navbar con login/registro -->
+            <nav th:replace="fragments :: navbar-about-guest"></nav>
+        </div>
+        <div th:case="*">
+            <!-- Usuario logueado: mostrar navbar completa -->
+            <nav th:replace="fragments :: navbar"></nav>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col">
+                <h1>ToDoList</h1>
+                <ul>
+                    <li>Desarrollada por Jefferson Pistala</li>
+                    <li>Versión 1.1.0 (en desarrollo)</li>
+                    <li>Fecha de release: pendiente de release</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments::javascript"/>
+</body>
 </html>
